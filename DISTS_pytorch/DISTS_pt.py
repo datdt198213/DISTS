@@ -60,7 +60,7 @@ class DISTS(torch.nn.Module):
         self.alpha.data.normal_(0.1,0.01)
         self.beta.data.normal_(0.1,0.01)
         if load_weights:
-            weights = torch.load(os.path.join(sys.prefix,'weights.pt'))
+            weights = torch.load('weights.pt')
             self.alpha.data = weights['alpha']
             self.beta.data = weights['beta']
         
@@ -135,6 +135,9 @@ if __name__ == '__main__':
     ref = ref.to(device)
     dist = dist.to(device)
     score = model(ref, dist)
+    store_value = f'{args.ref} => {args.dist}: {score.item()}'
+    with open('output.txt', 'a') as f:
+      f.write(store_value + '\n')
     print(score.item())
     # score: 0.3347
 
